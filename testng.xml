@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="10" preserve-order="true" name="/Users/ahlawat/Downloads/HybridApp">
+        <classes>
+            <class name="Tests.NegativeScenarios">
+                <methods>
+                    <include name="Shopformvalidation"/>
+                </methods>
+            </class>
+                <class name="Tests.PurchaseProduct">
+                    <methods>
+                        <include name="FillformPostiveScenario"/>
+                    </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
