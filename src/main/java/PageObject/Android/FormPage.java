@@ -11,14 +11,17 @@ import org.openqa.selenium.support.PageFactory;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static javax.swing.UIManager.get;
 import static utils.DatabaseUtils.ExecuteQuery;
 
 public class FormPage extends AndroidActionMethods {
+    ArrayList AppData = ExecuteQuery("select * from Fillform;");
+
+    String[] firstRow;
         AndroidDriver driver;
-        public FormPage(AndroidDriver driver)
-        {
+        public FormPage(AndroidDriver driver) throws SQLException, IOException {
             super(driver);
             this.driver=driver;
             PageFactory.initElements(new AppiumFieldDecorator(driver),this);
@@ -33,8 +36,7 @@ public class FormPage extends AndroidActionMethods {
         public void EnterDetails() throws SQLException, IOException {
             //Applaunch.click();
             //WaitforAppLaunch(Name);
-            ArrayList AppData = ExecuteQuery("select * from Fillform;");
-            String[] firstRow = (String[]) AppData.get(0);
+            firstRow = (String[]) AppData.get(0);
             String name = firstRow[0];
             NameField.sendKeys(name);
             driver.hideKeyboard();
@@ -46,6 +48,10 @@ public class FormPage extends AndroidActionMethods {
             LetsShop.click();
         }
         @AndroidFindBy(id = "com.androidsample.generalstore:id/productImage") public WebElement ShoeElement;
+
+        @AndroidFindBy(xpath = "com.androidsample.generalstore:id/productName")
+        List<WebElement> ProductBunch;
+
         @AndroidFindBy(id= "com.androidsample.generalstore:id/productAddCart") WebElement AddToCartBtn;
         @AndroidFindBy(id = "com.androidsample.generalstore:id/appbar_btn_cart") WebElement AddedToCart;
         @AndroidFindBy(xpath = "//android.widget.CheckBox[@text='end me e-mails on discounts related to selected products in future']")
@@ -54,12 +60,23 @@ public class FormPage extends AndroidActionMethods {
         WebElement WebApp;
         public void SelectProduct()
         {
-            ScrollGestureByElement(ShoeElement, "Up",1);
-            ShoeElement.click();
-            AddToCartBtn.click();
+            firstRow = (String[]) AppData.get(0);
+            String ShoeName = firstRow[2];
+            ScrollGestureByText(ShoeName);
+            SelectItem(ShoeName);
+
+            firstRow = (String[]) AppData.get(1);
+            String SecondShoeName = firstRow[2];
+            ScrollGestureByText(SecondShoeName);
+            SelectItem(SecondShoeName);
+
             AddedToCart.click();
-            checkbox.click();
-            WebApp.click();
+
+
+           // checkbox.click();
+            //WebApp.click();
+
+
         }
 
 }
